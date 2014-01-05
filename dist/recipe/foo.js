@@ -1,0 +1,1 @@
+recipe({libraries:["fettuccine.alfredo"],scripts:[]}).then(function(){alert(salt&&milk&&butter&&parmigianoReggiano&&fettuccine&&"Digin!!")});

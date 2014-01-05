@@ -1,0 +1,38 @@
+{
+  "fettuccine.alfredo": {
+    "path": "src/fettuccine.alfredo.js",
+    "dest": "dist",
+    "url": "/dist/fettuccine.alfredo.js",
+    "dependencies": ["fettuccine", "butter", "parmigianoReggiano", "salt"]
+  },
+  "fettuccine": {
+    "path": "src/fettuccine.js",
+    "dest": "dist",
+    "url": "/dist/fettuccine.js",
+    "dependencies": []
+  },
+  "butter": {
+    "path": "src/butter.js",
+    "dest": "dist",
+    "url": "/dist/butter.js",
+    "dependencies": ["salt", "milk"]
+  },
+  "parmigianoReggiano": {
+    "path": "src/parmigianoReggiano.js",
+    "dest": "dist",
+    "url": "/dist/parmigianoReggiano.js",
+    "dependencies": ["salt", "milk"]
+  },
+  "salt": {
+    "path": "src/salt.js",
+    "dest": "dist",
+    "url": "/dist/salt.js",
+    "dependencies": []
+  },
+  "milk": {
+    "path": "src/milk.js",
+    "dest": "dist",
+    "url": "/dist/milk.js",
+    "dependencies": []
+  }
+}
