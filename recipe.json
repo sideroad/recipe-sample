@@ -2,37 +2,37 @@
   "fettuccine.alfredo": {
     "path": "src/fettuccine.alfredo.js",
     "dest": "dist",
-    "url": "/dist/fettuccine.alfredo.js",
+    "url": "/recipe-sample/dist/fettuccine.alfredo.js",
     "dependencies": ["fettuccine", "butter", "parmigianoReggiano", "salt"]
   },
   "fettuccine": {
     "path": "src/fettuccine.js",
     "dest": "dist",
-    "url": "/dist/fettuccine.js",
+    "url": "/recipe-sample/dist/fettuccine.js",
     "dependencies": []
   },
   "butter": {
     "path": "src/butter.js",
     "dest": "dist",
-    "url": "/dist/butter.js",
+    "url": "/recipe-sample/dist/butter.js",
     "dependencies": ["salt", "milk"]
   },
   "parmigianoReggiano": {
     "path": "src/parmigianoReggiano.js",
     "dest": "dist",
-    "url": "/dist/parmigianoReggiano.js",
+    "url": "/recipe-sample/dist/parmigianoReggiano.js",
     "dependencies": ["salt", "milk"]
   },
   "salt": {
     "path": "src/salt.js",
     "dest": "dist",
-    "url": "/dist/salt.js",
+    "url": "/recipe-sample/dist/salt.js",
     "dependencies": []
   },
   "milk": {
     "path": "src/milk.js",
     "dest": "dist",
-    "url": "/dist/milk.js",
+    "url": "/recipe-sample/dist/milk.js",
     "dependencies": []
   }
 }
