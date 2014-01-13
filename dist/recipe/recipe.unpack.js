@@ -3,7 +3,7 @@
  * Author     sideroad
  * License    MIT
  *
- * Version    2.0.0
+ * Version    3.1.0
  * https://github.com/sideroad/recipe/
  */
 (function(){
@@ -2595,23 +2595,26 @@ recipe = (function(global, head, Q){
         }
         return uniqued;
       },
-      define = function(dependencies, callback){
+      define = function(id, deps, callback){
         var exports = recipe.exports,
+            exported,
             variables = [],
             variable,
             i,
-            length = dependencies.length;
+            length = deps.length;
+
+        //initialize namespace
 
         for(i=0;i<length;i++){
-          if(dependencies[i] === 'exports'){
-            variables.push(recipe.exports);
-          } else {
-            variable = recipe.exports[dependencies[i]];
-            variables.push( variable );
-          }
+          variable = recipe.exports[deps[i]];
+          variables.push( variable );
         }
 
-        callback.apply( global, variables);
+        exported = callback.apply( global, variables);
+
+        if(exported) {
+          recipe.exports[id] = exported;
+        }
       },
       recipe = function(options){
         var namespace,
@@ -2628,7 +2631,9 @@ recipe = (function(global, head, Q){
             i;
 
         if(isAmd){
-          global.define = define;
+          if(!global.define){
+            global.define = define;
+          }
 
           for(namespace in exports){
             recipe.exports[namespace] = exports[namespace];
@@ -2680,6 +2685,8 @@ recipe = (function(global, head, Q){
           if(!menu) {
             throw "You might forget to order because of menu was not founded.";
           }
+
+          recipe.setExportsFromAttribute();
           recipe.get.version().promise.then(function(version){
             recipe.resolve(menu, version);
           });
@@ -2689,19 +2696,45 @@ recipe = (function(global, head, Q){
           var set = url.split("#");
           head.js(set[0]+"?_="+version+(set[1]?"#"+set[1]:""));
         },
+        setExportsFromAttribute: function(){
+          var script = recipe.get.recipeTag()|| {getAttribute: function(){}},
+              exports = (script.getAttribute('data-exports')||'').split(','),
+              jQueryNoConflict = script.getAttribute('data-jquery-noconflict'),
+              i,
+              len,
+              namespace,
+              variable;
+
+          for(i=0, len=exports.length; i < len; i++){
+            namespace = exports[i];
+            if(namespace){
+              variable = global[namespace];
+              if(namespace === 'jQuery' && jQueryNoConflict ){
+                variable = global.jQuery.noConflict(jQueryNoConflict === "true" ? true : undefined);
+              }
+              recipe.exports[namespace] = variable;
+            }
+          }
+        },
         get: {
           recipeTag: function(){
-            var scripts = document.getElementsByTagName("script"),
+            var scripts,
                 i,
                 len,
                 script,
                 src;
+
+            if(cache.recipeTag){
+              return cache.recipeTag;
+            }
+            scripts = document.getElementsByTagName("script");
 
             if(scripts){
               for(i=0, len = scripts.length; i<len; i++){
                 script = scripts[i];
                 src = script.src || "";
                 if( /\/recipe\.js(\?.*)?$/.test( src ) && script.getAttribute('data-menu')){
+                  cache.recipeTag = script;
                   return script;
                 }
               }
@@ -2754,6 +2787,7 @@ recipe = (function(global, head, Q){
     recipe[method] = methods[method];
   }
   recipe.exports = recipe.exports || {Q:Q};
+  define.amd = {};
 
   recipe.init();
   return recipe;
